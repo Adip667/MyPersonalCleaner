@@ -1,0 +1,31 @@
+[general]
+aws_regions_all = false
+aws_regions = us-east-1, us-east-2
+logs_console = false
+logs_file = false
+
+[aws_details]
+aws_account = 1234567
+
+[aws_details_2nd]
+aws_account = 6543321
+role_to_assume = arn:aws:iam::6543321:role/Cleaner
+
+[azure_details]
+client_secret = 1
+client_id = 2
+tenant_id = 3
+subscription_id = 4
+
+[cleanup]
+time = 3
+ec2 = keeptag
+volumes = keeptag
+snapshots = keeptag
+images = keeptag
+sg = keeptag
+rds = keeptag
+rds_snaps = keeptag
+s3_objects = keeptag
+azure_rg = keeptag
+

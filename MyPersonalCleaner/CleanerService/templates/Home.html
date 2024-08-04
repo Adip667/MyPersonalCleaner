@@ -1,0 +1,65 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<br>
+Welcome to my personal cleaner server version 0.something, please select the relevant option and click run
+
+<hr>
+<form action="/cleanup" method="POST">
+    {% csrf_token %}
+    <b>&nbsp;AWS Target account</b>
+        <select name="accounts" id="accounts">
+          <option value="Main">Main</option>
+          <option value="Second">Second</option>
+          <option value="Both">Both</option>
+        </select>
+
+    <hr>
+    <b>&nbsp;Run option</b>
+        <select name="Runoption" id="Runoption">
+          <option value="dry_run">Dry Run</option>
+          <option value="delete">Delete</option>
+        </select>
+    <hr>
+
+    <b>&nbsp;Cleanup Target</b><br>
+        &nbsp;&nbsp;<input type="checkbox"  name="targets" value="all">
+        <label for="ami_snaps">All</label><br>
+
+        &nbsp;&nbsp;<input type="checkbox"  name="targets" value="ec2_ebs">
+        <label for="ami_snaps">EC2 & EBS</label><br>
+
+        &nbsp;&nbsp;<input type="checkbox"  name="targets" value="ami_snaps">
+        <label for="ami_snaps">AMI & Snapshots</label><br>
+
+        &nbsp;&nbsp;<input type="checkbox"  name="targets" value="rds_snaps">
+        <label for="ami_snaps">RDS & RDS Snapshots</label><br>
+
+        &nbsp;&nbsp;<input type="checkbox"  name="targets" value="sg">
+        <label for="ami_snaps">SG</label><br>
+
+        &nbsp;&nbsp;<input type="checkbox"  name="targets" value="S3 Objects">
+        <label for="ami_snaps">S3 Objects</label><br>
+
+        &nbsp;&nbsp;<input type="checkbox"  name="targets" value="Azure RG">
+        <label for="ami_snaps">Azure RG</label><br>
+
+        &nbsp;&nbsp;<input class="btn btn-sm btn-info" type="submit" name="submit" value="Run">
+</form>
+<hr>
+<b>&nbsp; Cleanup Behaviour:</b>
+
+<ul>
+    <li><b>EC2:</b> {{config.ec2_cleanup}}, keep_state tag apply </li>
+    <li><b>EBS:</b> {{config.ebs_cleanup}}, apply only to EBS in available state </li>
+    <li><b>AMI:</b> {{config.ami_cleanup}}  </li>
+    <li><b>Snapshots:</b> {{config.snapshot_cleanup}} </li>
+    <li><b>RDS:</b> {{config.rds_cleanup}}, keep_state tag apply  </li>
+    <li><b>RDS Snapshots:</b> {{config.rds_snap_cleanup}}  </li>
+    <li><b>SG:</b> Delete if no related EC2 & not a default SG & no tag(will not check value)</li>
+    <li><b>S3:</b> Delete objects if no tag on bucket(will not check value) </li>
+    <li><b>Azure RG:</b> Delete if no tag (will not check value) </li>
+</ul>
+<hr>
+
+{% endblock %}

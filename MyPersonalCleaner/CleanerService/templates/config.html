@@ -1,0 +1,104 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<br>
+ &nbsp;&nbsp;Server Configuration
+<hr>
+<b>&nbsp;AWS Account: Main</b>
+<form action="/configurations" method="POST">
+    {% csrf_token %}
+    &nbsp;&nbsp;<label for="aws_account_main">aws_account:</label>
+    <input type="text" id="aws_account_main" name="aws_account_main" value="{{config.aws_account_main}}"><br>
+    &nbsp;&nbsp;<input type="submit" name="submit" value="Update" style="float: right;">
+</form>
+
+<hr>
+<b>&nbsp;AWS Account: Second</b>
+<form action="/configurations" method="POST">
+    {% csrf_token %}
+    &nbsp;&nbsp;<label for="aws_account_second">aws_account:</label>
+    <input type="text" id="aws_account_second" name="aws_account_second" value="{{config.aws_account_second}}"><br>
+    &nbsp;&nbsp;<label for="aws_role">role_to_assume:</label>
+    <input type="text" id="aws_role" name="aws_role" value="{{config.aws_role}}"><br>
+    &nbsp;&nbsp;<input type="submit" name="submit" value="Update" style="float: right;">
+</form>
+
+<hr>
+
+<b>&nbsp;Azure Account</b>
+<form action="/configurations" method="POST">
+    {% csrf_token %}
+    &nbsp;&nbsp;<label for="client_secret">client_secret:</label>
+    <input type="text" id="client_secret" name="client_secret" value="{{config.client_secret}}"><br>
+    &nbsp;&nbsp;<label for="client_id">client_id:</label>
+    <input type="text" id="client_id" name="client_id" value="{{config.client_id}}"><br>
+    &nbsp;&nbsp;<label for="tenant_id">tenant_id:</label>
+    <input type="text" id="tenant_id" name="tenant_id" value="{{config.tenant_id}}"><br>
+    &nbsp;&nbsp;<label for="subscription_id">subscription_id:</label>
+    <input type="text" id="subscription_id" name="subscription_id" value="{{config.subscription_id}}" ><br>
+    &nbsp;&nbsp;<input type="submit" name="submit" value="Update" style="float: right;">
+</form>
+<hr>
+<b>&nbsp;General</b>
+<form action="/configurations" method="POST">
+    {% csrf_token %}
+    &nbsp;&nbsp;<label for="region_all">AWS regions all:</label>
+    <input type="text" id="region_all" name="region_all" value="{{config.region_all}}"><br>
+
+
+    &nbsp;&nbsp;<label for="regions">AWS regions:</label>
+    <input type="text" id="regions" name="regions" value="{{config.regions}}"><br>
+
+    &nbsp;&nbsp;<label for="logs_console">logs_console:</label>
+    <input type="text" id="logs_console" name="logs_console" value="{{config.logs_console}}"><br>
+
+
+    &nbsp;&nbsp;<label for="logs_file">logs_file:</label>
+    <input type="text" id="logs_file" name="logs_file" value="{{config.logs_file}}"><br>
+
+
+    &nbsp;&nbsp;<input type="submit" name="submit" value="Update" style="float: right;">
+</form>
+<hr>
+<b>&nbsp;Cleanup Behaviour:</b>
+<form action="/configurations" method="POST">
+    {% csrf_token %}
+    &nbsp;&nbsp;<label for="ec2_cleanup">EC2:</label>
+    <input type="text" id="ec2_cleanup" name="ec2_cleanup" value="{{config.ec2_cleanup}}"><br>
+
+    &nbsp;&nbsp;<label for="ebs_cleanup">EBS:</label>
+    <input type="text" id="ebs_cleanup" name="ebs_cleanup" value="{{config.ebs_cleanup}}"><br>
+
+    &nbsp;&nbsp;<label for="ami_cleanup">AMI:</label>
+    <input type="text" id="ami_cleanup" name="ami_cleanup" value="{{config.ami_cleanup}}"><br>
+
+    &nbsp;&nbsp;<label for="snapshot_cleanup">Snapshots:</label>
+    <input type="text" id="snapshot_cleanup" name="snapshot_cleanup" value="{{config.snapshot_cleanup}}"><br>
+
+        &nbsp;&nbsp;<label for="rds_cleanup">RDS:</label>
+    <input type="text" id="rds_cleanup" name="rds_cleanup" value="{{config.rds_cleanup}}"><br>
+
+        &nbsp;&nbsp;<label for="rds_snap_cleanup">RDS_Snapshots:</label>
+    <input type="text" id="rds_snap_cleanup" name="rds_snap_cleanup" value="{{config.rds_snap_cleanup}}"><br>
+
+        &nbsp;&nbsp;<label for="time_cleanup">Time:</label>
+    <input type="text" id="time_cleanup" name="time_cleanup" value="{{config.time_cleanup}}"><br>
+
+    &nbsp;&nbsp;<input type="submit" name="submit" value="Update" style="float: right;">
+</form>
+&nbsp; Option 1: keeptag - delete all resources where tag keep!=resource_id
+<ul>
+    <li> Will try to shutdown supported tagged instances </li>
+    <li> For supported instances, keep_state tag will tell it not to shutdown the resource </li>
+    <li> Fot S3 buckets/Azure RG/SG, it will only check 'keep' exist and will not check value</li>
+</ul>
+</br>&nbsp; Option 2: keeptag_withdate - delete resources where tag keep!=resource_id AND older then x days (configured time parameter)
+<ul>
+    <li> Will try to shutdown supported tagged instances older then the date</li>
+    <li> For supported instances, keep_state tag will tell it not to shutdown the resource </li>
+    <li> Not supported: S3 buckets, SG, Azure_RG</li>
+</ul>
+
+{% endblock %}
+
+
